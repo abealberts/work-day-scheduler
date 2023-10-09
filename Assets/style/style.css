@@ -21,7 +21,7 @@ textarea {
 }
 
 .row {
-  border-top: 1px solid white;
+  border-top: 2px solid white;
 }
 
 .hour {
@@ -46,9 +46,11 @@ textarea {
 }
 
 .saveBtn {
-  border-left: 1px solid black;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  border: 2px solid #fff;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
   background-color: #06aed5;
   color: white;
 }
@@ -57,3 +59,46 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.description {
+  border: 2px solid #fff;
+}
+
+
+.display-3 {
+  color: #06aed5;
+  text-align: center;
+  font-size: 24pt;
+}
+
+.lead {
+  color: #06aed5;
+  font-size: 12pt;
+  text-align: center;
+}
+
+#clock {
+  background: #06aed5;
+  border: solid 2px #06aed5;
+  border-radius: 10px;
+}
+
+#currentDay {
+  color: #fff;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-size: 24pt;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: solid 1px #fff;
+}
+
+#currentTime {
+  color: #fff;
+  margin-bottom: 8px;
+  font-size: 18pt;
+  font-weight: 400;
+  text-align: center;
+}
+
+

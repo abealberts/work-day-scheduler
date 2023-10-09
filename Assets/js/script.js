@@ -1,13 +1,5 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-
-
 $(function () {
 
-  var now = dayjs().hour();
-  
   //Tick gets called every second - Updates clock & color-coding
   function tick() {
 
@@ -31,15 +23,30 @@ $(function () {
 
   //Grabs row ID and description associated with the save button pressed
   $(".saveBtn").click(function(event){
-    
+
     selectedID = $(event.target).parents(".time-block").attr("id");
     selectedText = $(event.target).parents("div").children(".description").val();
-
+    
     console.log("ID: " + selectedID + '\n' + "HTML: " + selectedText);
+
+    var userDataObject = JSON.parse(localStorage.getItem("userData")) || [];
+
+    userDataObject.push({
+      id: selectedID,
+      text: selectedText,
+    });
+
+    console.log(userDataObject);
+
+    localStorage.setItem("userData", JSON.stringify(userDataObject));
+
+    loadData();
   });
 
   //Sets text box color based on hour of day
   function colorCode(){
+    var now = dayjs().hour();
+
     resetColor();
 
     $(".time-block").each(function(){
@@ -60,10 +67,18 @@ $(function () {
       });
     };
 
-  colorCode();
+  //tick() is called to avoid the 1 second delay on load
+  tick();
+  //loadData() is called here to load in saved data at load
+  loadData();
+
 // TODO: Add code to get any user input that was saved in localStorage and set
 // the values of the corresponding textarea elements. HINT: How can the id
 // attribute of each time-block be used to do this?
 //
-// TODO: Add code to display the current date in the header of the page.
+    function loadData(){
+      if (localStorage.key("userData")){
+        localStorage.getItem("userData");
+      }
+    };
 });

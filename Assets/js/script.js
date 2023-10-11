@@ -28,6 +28,8 @@ $(function () {
   function colorCode(){
     var now = dayjs().hour();
 
+    var now = dayjs().hour();
+
     resetColor();
 
     $(".time-block").each(function(){

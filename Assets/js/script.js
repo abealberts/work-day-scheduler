@@ -1,4 +1,16 @@
 $(function () {
+    //userData is used to push user inputs into storage when save button is pressed
+    var userData = JSON.parse(localStorage.getItem("userData")) || [
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+      {id: "", text: ""},
+    ];
 
   //Tick gets called every second - Updates clock & color-coding
   function tick() {
@@ -11,37 +23,6 @@ $(function () {
 
     colorCode();
   };
-  
-  setInterval(tick, 1000);
-
-// TODO: Add a listener for click events on the save button. This code should
-// use the id in the containing time-block as a key to save the user input in
-// local storage. HINT: What does `this` reference in the click listener
-// function? How can DOM traversal be used to get the "hour-x" id of the
-// time-block containing the button that was clicked? How might the id be
-// useful when saving the description in local storage?
-
-  //Grabs row ID and description associated with the save button pressed
-  $(".saveBtn").click(function(event){
-
-    selectedID = $(event.target).parents(".time-block").attr("id");
-    selectedText = $(event.target).parents("div").children(".description").val();
-    
-    console.log("ID: " + selectedID + '\n' + "HTML: " + selectedText);
-
-    var userDataObject = JSON.parse(localStorage.getItem("userData")) || [];
-
-    userDataObject.push({
-      id: selectedID,
-      text: selectedText,
-    });
-
-    console.log(userDataObject);
-
-    localStorage.setItem("userData", JSON.stringify(userDataObject));
-
-    loadData();
-  });
 
   //Sets text box color based on hour of day
   function colorCode(){
@@ -59,26 +40,47 @@ $(function () {
       };
       });
   };
-  
-    //Removes color-determining classes from text boxes to avoid stacking different class types
-    function resetColor(){
-      $(".time-block").each(function(){
-        $(this).removeClass("present", "past", "future");
-      });
-    };
 
-  //tick() is called to avoid the 1 second delay on load
+  //Removes color-determining classes from text boxes to avoid stacking different class types
+  function resetColor(){
+    $(".time-block").each(function(){
+      $(this).removeClass("present", "past", "future");
+    });
+  };
+
+  //Displays values saved in localData
+  function loadData(){
+
+    console.log(userData);
+
+    $(".time-block").each(function(){
+      var thisID = $(this).attr("id");
+      var thisText = $(this).children(".description").val();
+      console.log(thisID + "//" + thisText);
+  
+      //Replaces textarea value with userData.text
+      $(this).children(".description").val(userData[thisID - 9].text);
+    });
+  };
+
+  //Grabs row ID and description associated with the save button pressed, sends to localStorage
+  $(".saveBtn").click(function(event){
+
+    selectedID = $(event.target).parents(".time-block").attr("id");
+    selectedText = $(event.target).parents("div").children(".description").val();
+    
+    //selectedID is subtracted by 9 so it aligns with the array value (i.e. userData[9] becomes userData[0] with the subtracted value)
+    userData[selectedID - 9].id = selectedID;
+    userData[selectedID - 9].text = selectedText;
+
+    //pushes updated version of userData to localStorage
+    localStorage.setItem("userData", JSON.stringify(userData));
+  });
+
+  //Sets a time interval that calls tick() every second
+  setInterval(tick, 1000);
+  //tick() is called manually here to avoid the 1 second delay on load
   tick();
   //loadData() is called here to load in saved data at load
   loadData();
-
-// TODO: Add code to get any user input that was saved in localStorage and set
-// the values of the corresponding textarea elements. HINT: How can the id
-// attribute of each time-block be used to do this?
-//
-    function loadData(){
-      if (localStorage.key("userData")){
-        localStorage.getItem("userData");
-      }
-    };
 });

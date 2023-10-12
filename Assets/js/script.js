@@ -34,11 +34,11 @@ $(function () {
 
     $(".time-block").each(function(){
       if ($(this).attr("id") == now) {
-        $(this).addClass("present");
+        $(this).children(".description").addClass("present");
       } else if ($(this).attr("id") < now) {
-        $(this).addClass("past");
+        $(this).children(".description").addClass("past");
       } else {
-        $(this).addClass("future");
+        $(this).children(".description").addClass("future");
       };
       });
   };
